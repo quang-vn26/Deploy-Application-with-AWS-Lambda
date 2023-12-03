@@ -100,9 +100,7 @@ To deploy an application run the following commands:
 ```
 cd backend
 npm install
-npm i serverless-iam-roles-per-function --save--dev
 sls deploy -v
-serverless deploy --verbose
 ```
 
 ## Frontend

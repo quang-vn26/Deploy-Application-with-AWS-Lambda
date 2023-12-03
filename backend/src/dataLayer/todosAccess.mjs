@@ -3,7 +3,7 @@ import AWSXRay from 'aws-xray-sdk';
 
 import { createLogger } from '../utils/logger.mjs';
 
-const awsService = AWSXRay.captureAWS(AWS);
+const awsService = new AWSXRay.captureAWS(AWS);
 const documentClient = new awsService.DynamoDB.DocumentClient();
 const todosTable = process.env.TODOS_TABLE;
 const todosName = process.env.INDEX_NAME;

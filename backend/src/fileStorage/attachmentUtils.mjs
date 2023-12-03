@@ -1,25 +1,25 @@
 import AWS from 'aws-sdk';
 import AWSXRay from 'aws-xray-sdk';
 
-const s3BucketName = process.env.IMAGES_S3_BUCKET;
-const urlExpirationData = +process.env.SIGNED_URL_EXPIRATION;
+const s3BucketName = process.env.S3_BUCKET_IMAGES;
+const Exp = +process.env.SIGNED_URL_EXPIRATION;
 
-export class attachmentUtils {
+export class commonAttachmentUtil {
 
     // attach image url
-    buildAttachmentUrl(todoId) {
-        return `https://${s3BucketName}.s3.amazonaws.com/${todoId}`;
+    createAttachmentUrl(todoId) {
+        return `https://${s3Bucket}.s3.amazonaws.com/${todoId}`;
     }
 
-    getUploadUrl(todoId) {
+    createUploadUrl(todoId) {
 
-        // s3
-        const s3 = new AWSXRay.captureAWS(AWS).S3({ signatureVersion: 'v4' });
+        const xRay = AWSXRay.captureAWS(AWS);
+        const s3 = new xRay.S3({ signatureVersion: 'v4' });
 
         return s3.getSignedUrl('putObject', {
             Bucket: s3BucketName,
             Key: todoId,
-            Expires: urlExpirationData
+            Expires: Exp
         });
     }
 }

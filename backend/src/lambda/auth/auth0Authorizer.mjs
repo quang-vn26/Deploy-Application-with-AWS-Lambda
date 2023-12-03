@@ -4,7 +4,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { createLogger } from '../../utils/logger.mjs';
 
 const logger = createLogger('Todos: auth0Authorizer');
-const jwksUrl = 'https://dev-hd6dfkimhbcjl7mf.us.auth0.com/.well-known/jwks.json';
+const jwksUrl = 'https://dev-zy6vnxwx0t4c36aw.us.auth0.com/.well-known/jwks.json';
 
 // handler auth
 export async function handler(event) {

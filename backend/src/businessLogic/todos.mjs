@@ -1,13 +1,13 @@
-import { uuid } from 'uuid';
+import { uuid } from 'uuidv4';
 
 import { TodosAccess } from '../dataLayer/todosAccess.mjs';
 import { createLogger } from '../utils/logger.mjs';
-import { attachmentUtils } from '../fileStorage/attachmentUtils.mjs';
+import { commonAttachmentUtil } from '../fileStorage/attachmentUtils.mjs';
 
 
-const loggerApp = createLogger('Todos: Logic CRUD');
+const loggerApp = createLogger('Todos: business logic CRUD');
 const todosAccess = new TodosAccess();
-const attachmentUtils = new attachmentUtils();
+const attachmentUtil = new commonAttachmentUtil();
 
 // get all items for user
 export async function getTodos(userId) {
@@ -25,12 +25,15 @@ export async function createTodo(newTodo, userId) {
     // create uuid
     const todoId = uuid();
 
+    const createdAt = new Date().toISOString();
+    const attachmentImageUrl = await attachmentUtil.createAttachmentUrl(todoId);
+
     // new item
     const newItem = {
         todoId,
         userId,
-        attachmentUrl: attachmentUtils.buildAttachmentUrl(todoId),
-        createdAt: (new Date()).toISOString(),
+        attachmentUrl: attachmentImageUrl,
+        createdAt: createdAt,
         done: false,
         ...newTodo
     };
@@ -58,7 +61,7 @@ export async function deleteTodo(todoId, userId) {
 //create upload url for todo item
 export async function createAttachmentPresignedUrl(todoId) {
 
-    logger.info('Todos: create attachment URL');
+    loggerApp.info('Todos: create attachment URL');
 
-    return await attachmentUtils.getUploadUrl(todoId);
+    return await attachmentUtil.createUploadUrl(todoId);
 }
