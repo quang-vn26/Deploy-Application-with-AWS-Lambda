@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { uuid } from 'uuid';
 
 import { TodosAccess } from '../dataLayer/todosAccess.mjs';
 import { createLogger } from '../utils/logger.mjs';
